@@ -326,10 +326,7 @@ public class ProductoFrame extends javax.swing.JDialog {
              stock, imgArticleFile, unidad, precioCompra, precioVenta,
              0.0, categoria.getIdCategoriaProd(), proveedor.getIdProveedor());
          base.insertarProducto(producto);
-     }
-     
-     
-     
+     }   
      
     }//GEN-LAST:event_btnGuardarProductoActionPerformed
 

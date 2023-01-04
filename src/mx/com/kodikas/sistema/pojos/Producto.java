@@ -127,6 +127,11 @@ public class Producto {
     public void setExistenciasProducto(double existenciasProducto) {
         this.existenciasProducto = existenciasProducto;
     }
+
+    @Override
+    public String toString() {
+        return "Producto{" + "nomProducto=" + nomProducto + '}';
+    }
     
     
     

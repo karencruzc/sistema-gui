@@ -1,5 +1,6 @@
 package mx.com.kodikas.sistema.datos;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -36,18 +37,21 @@ public class BaseDatos {
         try {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");
-            FileInputStream fis = new FileInputStream(producto.getFotoProducto());
+            File fileFoto = producto.getFotoProducto();
+            FileInputStream fis = new FileInputStream(fileFoto);
             
-            String sql = "INSERT INTO public.\"CAT_PRODUCTOS\"(id_prod, nombre_prod, desc_prod, stock_prod, foto_prod, unidad_prod, "
+            String sql = "INSERT INTO CAT_PRODUCTOS(id_prod, nombre_prod, desc_prod, stock_prod, foto_prod, unidad_prod, "
                     + "precio_compra_prod, precio_venta_prod, existencias_prod, id_categoria_prod, id_proveedor) "
                     + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             preparedStatement = connection.prepareStatement(sql);
+            
             preparedStatement.setString(1, producto.getIdProducto());
             preparedStatement.setString(2, producto.getNomProducto());
             preparedStatement.setString(3, producto.getDescProducto());
             preparedStatement.setDouble(4, producto.getStockProducto());
-            preparedStatement.setBinaryStream(5, fis, (int)producto.getFotoProducto().length());
+            long tamanoFoto = fileFoto.length();
+            preparedStatement.setBinaryStream(5, fis, tamanoFoto);
             preparedStatement.setString(6, producto.getUnidadProducto());
             preparedStatement.setDouble(7, producto.getPrecioCompraProducto());
             preparedStatement.setDouble(8, producto.getPrecioVentaProducto());
@@ -79,7 +83,7 @@ public class BaseDatos {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "INSERT INTO public.\"CAT_CATEGORIAS\"(nom_categoria_prod, desc_categoria_prod) "
+            String sql = "INSERT INTO CAT_CATEGORIAS(nom_categoria_prod, desc_categoria_prod) "
                     + "VALUES(?, ?)";
             
             preparedStatement = connection.prepareStatement(sql);
@@ -107,7 +111,7 @@ public class BaseDatos {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "INSERT INTO public.\"CAT_PROVEEDORES\"(nom_proveedor, dir_proveedor, telefono_proveedor, "
+            String sql = "INSERT INTO CAT_PROVEEDORES(nom_proveedor, dir_proveedor, telefono_proveedor, "
                     + "email_proveedor, contacto_proveedor) "
                     + "VALUES(?, ?, ?, ?, ?)";
             
@@ -139,7 +143,7 @@ public class BaseDatos {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "INSERT INTO public.\"VENTAS\"(monto_venta, fecha_venta) "
+            String sql = "INSERT INTO VENTAS(monto_venta, fecha_venta) "
                     + "VALUES(?, ?)";
             
             preparedStatement = connection.prepareStatement(sql);
@@ -167,7 +171,7 @@ public class BaseDatos {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "INSERT INTO public.\"DETALLE_VENTA\"(monto_venta, fecha_venta) "
+            String sql = "INSERT INTO DETALLE_VENTA(monto_venta, fecha_venta) "
                     + "VALUES(?, ?)";
             
             preparedStatement = connection.prepareStatement(sql);
@@ -191,14 +195,14 @@ public class BaseDatos {
         }        
     }//fin metodo insertarDetalleVenta
     
-    public ArrayList<Producto> obtenerProducto(){
+    public ArrayList<Producto> obtenerProductos(){
         ArrayList<Producto> listaProductos = new ArrayList<Producto>();
         
         try {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "SELECT * FROM public.\"CAT_PRODUCTOS\"";
+            String sql = "SELECT * FROM CAT_PRODUCTOS";
             
             preparedStatement = connection.prepareStatement(sql);
 
@@ -244,7 +248,7 @@ public class BaseDatos {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "SELECT * FROM public.\"CAT_CATEGORIAS\"";
+            String sql = "SELECT * FROM CAT_CATEGORIAS";
             
             preparedStatement = connection.prepareStatement(sql);
 
@@ -282,7 +286,7 @@ public class BaseDatos {
             
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "SELECT * FROM public.\"CAT_PROVEEDORES\"";
+            String sql = "SELECT * FROM CAT_PROVEEDORES";
             
             preparedStatement = connection.prepareStatement(sql);
 
