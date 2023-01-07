@@ -39,25 +39,25 @@
                               <Component id="btnProveedor" min="-2" pref="92" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField3" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="campoExistenciaProducto" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextField5" max="32767" attributes="0"/>
+                                  <Component id="campoBuscar" max="32767" attributes="0"/>
                                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField1" alignment="0" pref="140" max="32767" attributes="0"/>
-                                  <Component id="jTextField4" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="campoClaveProducto" alignment="0" pref="140" max="32767" attributes="0"/>
+                                  <Component id="campoAgregarExistencia" alignment="0" pref="140" max="32767" attributes="0"/>
                                   <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField2" min="-2" pref="128" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jButton4" min="-2" pref="102" max="-2" attributes="0"/>
+                                      <Component id="btnAgregarExistencias" min="-2" pref="102" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="248" max="-2" attributes="0"/>
                                       <Component id="lblImagen" min="-2" pref="110" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="campoNombreProducto" alignment="0" min="-2" pref="395" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -94,21 +94,21 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTextField2" pref="30" max="32767" attributes="0"/>
-                  <Component id="jTextField1" max="32767" attributes="0"/>
+                  <Component id="campoNombreProducto" pref="30" max="32767" attributes="0"/>
+                  <Component id="campoClaveProducto" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="campoExistenciaProducto" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField4" pref="35" max="32767" attributes="0"/>
-                          <Component id="jButton4" max="32767" attributes="0"/>
+                          <Component id="campoAgregarExistencia" pref="35" max="32767" attributes="0"/>
+                          <Component id="btnAgregarExistencias" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="lblImagen" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
@@ -116,7 +116,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTextField5" min="-2" pref="38" max="-2" attributes="0"/>
+              <Component id="campoBuscar" min="-2" pref="38" max="-2" attributes="0"/>
               <EmptySpace pref="40" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
@@ -160,14 +160,14 @@
         <Property name="text" type="java.lang.String" value="Clave:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="campoClaveProducto">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nombre:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="campoNombreProducto">
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -182,6 +182,10 @@
               <Connection code="modeloTabla" type="code"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="tablaProductos.getSelectionModel().addListSelectionListener(&#xd;&#xa;  new ListSelectionListener() {&#xd;&#xa;        public void valueChanged(ListSelectionEvent event){&#xd;&#xa;            if(!event.getValueIsAdjusting() &amp;&amp; (tablaProductos.getSelectedRow()&gt;=0)){&#xd;&#xa;                int filaSeleccionada = tablaProductos.getSelectedRow();&#xd;&#xa;                 Producto producto = (Producto) modeloTabla.getValueAt(filaSeleccionada, 0);&#xd;&#xa;                 campoClaveProducto.setText(producto.getIdProducto());                 &#xd;&#xa;                 campoNombreProducto.setText(producto.getNomProducto());&#xd;&#xa;                 String existencias = String.valueOf(producto.getExistenciasProducto());&#xd;&#xa;                 campoExistenciaProducto.setText(existencias);&#xd;&#xa;                 productoSeleccionado = producto;&#xd;&#xa;             }&#xd;&#xa;        }&#xd;&#xa;    }&#xd;&#xa;);"/>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="InventariosFrame_tablaProductos"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -192,9 +196,9 @@
         <Property name="text" type="java.lang.String" value="Existencias:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="campoExistenciaProducto">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField3ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoExistenciaProductoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -202,15 +206,18 @@
         <Property name="text" type="java.lang.String" value="Ingresar al Inventario:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField4">
+    <Component class="javax.swing.JTextField" name="campoAgregarExistencia">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField4ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoAgregarExistenciaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="btnAgregarExistencias">
       <Properties>
         <Property name="text" type="java.lang.String" value="Agregar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarExistenciasActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Events>
@@ -224,7 +231,11 @@
         <Property name="text" type="java.lang.String" value="Buscar:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField5">
+    <Component class="javax.swing.JTextField" name="campoBuscar">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoBuscarActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="campoBuscarKeyReleased"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

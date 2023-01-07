@@ -1,5 +1,6 @@
 package mx.com.kodikas.sistema.datos;
 
+import java.beans.Statement;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,7 +24,8 @@ import mx.com.kodikas.sistema.pojos.Venta;
 public class BaseDatos {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null; 
+    Statement st = null;
+    ResultSet resultSet = null;     
 
     public BaseDatos() {
         try {
@@ -76,7 +78,35 @@ public class BaseDatos {
             
         }
         
-    }//fin metodo insertarProducto            
+    }//f
+    
+    public void actualizarInventario (Producto producto, double cantidad){
+         try {
+            
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
+            
+            String sql = "UPDATE cat_productos SET existencias_prod =? WHERE id_prod=?";
+            
+            preparedStatement = connection.prepareStatement(sql);
+            
+            preparedStatement.setDouble(1, cantidad);
+            preparedStatement.setString(2, producto.getIdProducto());
+                        
+            preparedStatement.executeUpdate();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        
+        } finally{
+            try {
+                preparedStatement.close();
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }           
+        }
+        
+    }
     
     public void insertarCategoriaProducto(CategoriaProd categoria) {
         try {
@@ -195,17 +225,59 @@ public class BaseDatos {
         }        
     }//fin metodo insertarDetalleVenta
     
-    public ArrayList<Producto> obtenerProductos(){
-        ArrayList<Producto> listaProductos = new ArrayList<Producto>();
+    
+    public ArrayList<Producto> obtenerProductosPorCriterio (String criterio){
+      ArrayList<Producto> listaProductos = new ArrayList<Producto>();        
+        try {            
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");                        
+            String sql = "SELECT * FROM CAT_PRODUCTOS "
+                    + "WHERE id_prod like '%" + criterio + "%'"
+                    + "or nombre_prod like '%" + criterio + "%'"
+                    + "order by nombre_prod";
+                        
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            
+            while(resultSet.next()){
+                String id = resultSet.getString("id_prod");
+                String nombre = resultSet.getString("nombre_prod");
+                String descripcion = resultSet.getString("desc_prod");
+                double stock = resultSet.getDouble("stock_prod");
+                String unidad = resultSet.getString("unidad_prod");
+                double precioCompra = resultSet.getDouble("precio_compra_prod");
+                double precioVenta = resultSet.getDouble("precio_venta_prod");
+                double existencias = resultSet.getDouble("existencias_prod");
+                int idCategoria = resultSet.getInt("id_categoria_prod");
+                int idProveedor = resultSet.getInt("id_proveedor");
+                
+                Producto producto = new Producto(id, nombre, descripcion, stock, null, 
+                        unidad, precioCompra, precioVenta, existencias, idCategoria, idProveedor);
+                
+                listaProductos.add(producto);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         
-        try {
+        } finally{
+            try {
+                preparedStatement.close();
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }           
+        }
+        return listaProductos;  
+    }
             
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");            
             
-            String sql = "SELECT * FROM CAT_PRODUCTOS";
+    public ArrayList<Producto> obtenerProductos(){
+        ArrayList<Producto> listaProductos = new ArrayList<Producto>();        
+        try {            
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db-sistema","postgres", "admin");                        
+            String sql = "SELECT * FROM CAT_PRODUCTOS order by nombre_prod";
             
             preparedStatement = connection.prepareStatement(sql);
-
             resultSet = preparedStatement.executeQuery();
             
             while(resultSet.next()){

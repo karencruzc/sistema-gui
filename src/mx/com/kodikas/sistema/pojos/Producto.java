@@ -130,7 +130,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "nomProducto=" + nomProducto + '}';
+        return this.idProducto;
     }
     
     
